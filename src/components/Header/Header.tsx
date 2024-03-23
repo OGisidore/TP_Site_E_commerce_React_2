@@ -7,24 +7,35 @@
 import React, { FC, useEffect,Fragment } from 'react';
 // import Loading from '../Loading/Loading';
 import './Header.css';
+import { Meta } from '../../models/Meta';
+import { getMetas } from '../../Helpers/utiles';
+import { Link } from 'react-router-dom';
 
 
 interface HeaderProps {
+  metas:Meta[]
  
 }
 
 
-const Header : FC<HeaderProps> = () =>{
+const Header : FC<HeaderProps> = ({metas}) =>{
 
 
-    // const [state, setState] = useState<any>(null)
+    // const [meta, setMeta] = useState<Meta[]>([])
    
 
     useEffect(() => {
       window.scrollTo(0,0)
       const runLocalData = async () => {
-
-       
+      //   const datas: RequestResponse = await getData("meta")
+      //   if (datas.isSuccess) {
+      //     const results : Meta[] = (datas.results as Meta[])
+      //     console.log(results);
+      //     const name = getMetas(results, "site_name")
+      //      console.log(name)
+      //      setMeta(results)   
+      //   } 
+        
       }
       runLocalData()
     },[])
@@ -61,18 +72,21 @@ const Header : FC<HeaderProps> = () =>{
               </div>
             </div>
             <ul className="contact_detail text-center text-lg-start">
-              <li><i className="ti-mobile" /><span>+33 7 49 31 69 74</span></li>
+              <li><i className="ti-mobile" /><span>{getMetas(metas, "site_phone")}</span></li>
             </ul>
           </div>
         </div>
         <div className="col-md-6">
           <div className="text-center text-md-end">
             <ul className="header_list">
-              <li><a href="/compare"><i className="ti-control-shuffle" /><span>Compare</span></a></li>
-              <li><a  href="/wishlist"><i className="ti-heart" /><span>Wishlist</span></a></li>
-              <li><a  href="/signin"><i className="ti-user" /><span>Signin</span></a>
+              <li>
+                <Link to={"/compare"}><i className="ti-control-shuffle" /><span>Compare</span></Link></li>
+              <li>
+                <Link  to={"/wishlist"}>  <i className="ti-heart" /><span>Wishlist</span></Link></li>
+              <li>
+                <Link  to={"/signin"}><i className="ti-user" /><span>Signin</span></Link>
               </li>
-              <li><a  href="/signup"><i className="ti-user" /><span>Signup</span></a>
+              <li><Link  to={"/signup"}><i className="ti-user" /><span>Signup</span></Link>
               </li>
               <li />
               <li />
@@ -85,7 +99,7 @@ const Header : FC<HeaderProps> = () =>{
   <div className="bottom_header dark_skin main_menu_uppercase">
     <div className="container">
       <nav className="navbar navbar-expand-lg"><a  className="navbar-brand" href="/">
-          <h2>Jstore</h2>
+          <h2>{getMetas(metas, "site_name")}</h2>
         </a><button type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-expanded="false" className="navbar-toggler collapsed"><span className="ion-android-menu" /></button>
         <div id="navbarSupportedContent" className="navbar-collapse justify-content-end collapse">
           <ul className="navbar-nav">

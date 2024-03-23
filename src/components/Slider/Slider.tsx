@@ -4,8 +4,11 @@
   App Name : E-commerce with React.Js
   Created At : 22/03/2024 14:52:45
 */
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import './Slider.css';
+import { getDataByPage } from '../../api/entities';
+import { RequestResponse } from '../../models/requestResponse';
+import { Sliders } from '../../models/Sliders';
 
 
 interface SliderProps {
@@ -15,27 +18,30 @@ interface SliderProps {
 
 const Slider: FC<SliderProps> = () => {
 
-  const sliders = [
-    {
-      imageUrl: "/assets/files/5636032336810249217657640367454574917953566681684755222263.png",
-      title: "50% off in all products",
-      description: "Man Fashion"
-    },
-    {
-      imageUrl: "/assets/files/17099405955142852076105633054671075224313121684753428765.png",
-      title: "50% off in all products",
-      description: "Man Fashion"
-    },
-    {
-      imageUrl: "/assets/files/2850766279112079091504712247552853779750349121684753505113.png",
-      title: "50% off in all products",
-      description: "Man Fashion"
-    },
-  ]
+  // const [state, setState]=useState<any>({})
+  const [sliders, setSliders]=useState<Sliders[]>([])
 
+// const getSlider = async() : Array<Promise>=>{
+//   const slider = await getDataByPage("slide", 1, 3)
+//   console.log(slider.results);
+//   return  slider.results
+  
+// }
+// const sliders :{}[] = getSlider()
+// console.log(sliders);
+
+  
   useEffect(() => {
     window.scrollTo(0, 0)
     const runLocalData = async () => {
+      const datas: RequestResponse = await getDataByPage("slide", 1, 3)
+      if (datas.isSuccess) {
+        const results : Sliders[] = (datas.results as Sliders[])
+         setSliders(results)   
+      }
+     
+        
+     
 
     }
     runLocalData()
@@ -46,11 +52,12 @@ const Slider: FC<SliderProps> = () => {
       <div id="carouselExampleControls" data-bs-ride="carousel" className="carousel slide carousel-fade light_arrow">
         <div className="carousel-inner">
           {
-            sliders.map((slider:any, index:number) => {
-              return <div key={index} 
-              className={ index === 0 ? "carousel-item active background_bg" : "carousel-item  background_bg" }
-                data-img-src={slider.imageUrl}
-                style={{ backgroundImage: `url(${slider.imageUrl})` }}>
+            sliders.length?
+            sliders.map((slide, index,) => {
+              return <div key={index}
+                className={index === 0 ? "carousel-item active background_bg" : "carousel-item  background_bg"}
+                data-img-src={slide.imageUrl}
+                style={{ backgroundImage: `url(${slide.imageUrl})` }}>
                 <div className="banner_slide_content">
                   <div className="container">
                     <div className="row">
@@ -59,11 +66,19 @@ const Slider: FC<SliderProps> = () => {
                           <h5 data-animation="slideInLeft"
                             data-animation-delay="0.5s"
                             className="mb-3 staggered-animation font-weight-light animated slideInLeft"
-                            style={{ animationDelay: '0.5s', opacity: 1 }}>{ }</h5>
+                            style={{ animationDelay: '0.5s', opacity: 1 }}>{slide.description}</h5>
                           <h2 data-animation="slideInLeft"
                             data-animation-delay="1s"
                             className="staggered-animation animated slideInLeft"
-                            style={{ animationDelay: '0.5s', opacity: 1 }}>Man Fashion</h2><a data-animation="slideInLeft" data-animation-delay="1.5s" className="btn btn-fill-out rounded-0 staggered-animation text-uppercase animated slideInLeft" href="http://localhost:4300/" style={{ animationDelay: '1.5s', opacity: 1 }}>Shop Now</a>
+                            style={{ animationDelay: '0.5s', opacity: 1 }}>{slide.title}</h2>
+                          <a data-animation="slideInLeft"
+                            data-animation-delay="1.5s"
+                            className="btn btn-fill-out rounded-0 staggered-animation text-uppercase animated slideInLeft"
+                            href={slide.button_link}
+                            target="_blank"
+                            style={{ animationDelay: '1.5s', opacity: 1 }}>
+                            {slide.button_text}
+                          </a>
                         </div>
                       </div>
                     </div>
@@ -71,6 +86,8 @@ const Slider: FC<SliderProps> = () => {
                 </div>
               </div>
             })
+            :
+            null
           }
 
           {/* <div className="carousel-item background_bg"

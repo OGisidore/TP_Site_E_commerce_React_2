@@ -9,7 +9,8 @@ import './Main.css';
 import Slider from '../Slider/Slider';
 import Collection from '../Collection/Collection';
 import Exclusive from '../Exclusive/Exclusive';
-import { getData } from '../../api/entities';
+import { getDataByPage } from '../../api/entities';
+// import { getData } from '../../api/entities';
 
 
 interface MainProps {
@@ -24,8 +25,12 @@ const Main: FC<MainProps> = () => {
   useEffect(() => {
     window.scrollTo(0, 0)
     const runLocalData = async () => {
-      const users = getData("users")
-      console.log(users);
+      const slider =await getDataByPage("slide",1,3)
+      console.log(slider.results);
+      
+      // return products
+      
+      
       
 
     }
