@@ -9,6 +9,7 @@ import React, { FC, useEffect,Fragment,  } from 'react';
 import './Signin.css';
 import PageBanner from '../../components/PageBanner/PageBanner';
 import { Link } from 'react-router-dom';
+import { useFormik } from 'formik';
 
 
 interface SigninProps {
@@ -21,6 +22,25 @@ const Signin : FC<SigninProps> = () =>{
 
     // const [state, setState] = useState<any>(null)
    
+  const validate = (values: any) => validateRegisterForm(values)
+
+  // validateRegisterForm
+  const formik = useFormik({
+    initialValues: {
+      
+      password: '',
+      email: '',
+      acceptedTerms : false
+    },
+    validate,
+    onSubmit: async (user) => {
+      
+
+
+      alert(JSON.stringify(user, null, 2));
+    },
+  });
+
 
     useEffect(() => {
       window.scrollTo(0,0)
@@ -45,7 +65,10 @@ const Signin : FC<SigninProps> = () =>{
               <div className="heading_s1">
                 <h3>Login</h3>
               </div>
-              <form ng-reflect-form="[object Object]" className="ng-untouched ng-pristine ng-invalid">
+              <form
+               ng-reflect-form="[object Object]"
+                className="ng-untouched ng-pristine ng-invalid">
+
                 <div className="form-group mb-3">
                   <input type="text" name="email" placeholder="Your Email" className="form-control ng-untouched ng-pristine ng-invalid" />
                 </div>

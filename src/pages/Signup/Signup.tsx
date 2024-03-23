@@ -30,11 +30,11 @@ const Signup: FC<SignupProps> = () => {
   // validateRegisterForm
   const formik = useFormik({
     initialValues: {
-      fullName: 'ISIDORE OG',
-      password: '123456789',
-      email: 'isidore@gmail.com',
-      confirmPassword: '123456789',
-      acceptedTerms : true
+      fullName: '',
+      password: '',
+      email: '',
+      confirmPassword: '',
+      acceptedTerms : false
     },
     validate,
     onSubmit: async (user) => {
