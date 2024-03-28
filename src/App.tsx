@@ -9,6 +9,11 @@ import Header from './components/Header/Header'
 import Footer from './components/Footer/Footer'
 import Signin from './pages/Signin/Signin'
 import Signup from './pages/Signup/Signup'
+import Account from './components/Account/Account'
+import PrivateRoute from './guard/PrivateRoute/PrivateRoute'
+import SingleProduct from './pages/SingleProduct/SingleProduct'
+import Cart from './pages/Cart/Cart'
+import Checkout from './pages/Checkout/Checkout'
 
 const App: React.FC = () => {
   const [meta, setMeta] = useState<Meta[]>([])
@@ -17,9 +22,12 @@ const App: React.FC = () => {
     window.scrollTo(0,0)
     const runLocalData = async () => {
       const datas: RequestResponse = await getData("meta")
+      // console.log({datas});
+      
       if (datas.isSuccess) {
         const results : Meta[] = (datas.results as Meta[])
-        console.log(results);
+        // console.log("ok");
+        
         
          setMeta(results)   
       } 
@@ -35,6 +43,10 @@ const App: React.FC = () => {
           <Route path="/" element={<Home />} />
           <Route path="/signin" element={<Signin />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/product/:slug" element={<SingleProduct />} />
+          <Route path="/account" element={<PrivateRoute><Account /></PrivateRoute> } />
         </Routes>
         <Footer metas={meta}/>
       

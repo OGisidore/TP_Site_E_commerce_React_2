@@ -9,7 +9,6 @@ import './Main.css';
 import Slider from '../Slider/Slider';
 import Collection from '../Collection/Collection';
 import Exclusive from '../Exclusive/Exclusive';
-import { getDataByPage } from '../../api/entities';
 // import { getData } from '../../api/entities';
 
 
@@ -25,14 +24,7 @@ const Main: FC<MainProps> = () => {
   useEffect(() => {
     window.scrollTo(0, 0)
     const runLocalData = async () => {
-      const slider =await getDataByPage("slide",1,3)
-      console.log(slider.results);
       
-      // return products
-      
-      
-      
-
     }
     runLocalData()
   })

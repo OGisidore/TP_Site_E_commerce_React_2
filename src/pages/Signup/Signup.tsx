@@ -11,8 +11,10 @@ import PageBanner from '../../components/PageBanner/PageBanner';
 import { useFormik } from 'formik';
 import { validateRegisterForm } from '../../Helpers/utiles';
 import { signup } from '../../api/entities';
-import Signin from '../Signin/Signin';
-import { Link } from 'react-router-dom';
+// import Signin from '../Signin/Signin';
+import { Link, Navigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { getAuthState } from '../../redux/selectors/GlobalSelectors';
 
 
 interface SignupProps {
@@ -23,6 +25,7 @@ interface SignupProps {
 const Signup: FC<SignupProps> = () => {
   const[redirect , setRedirect]=useState<boolean>(false)
   const[formError , setFomError]=useState<string>("")
+    const isAuth = useSelector(getAuthState)
 
 
   const validate = (values: any) => validateRegisterForm(values)
@@ -66,7 +69,11 @@ console.log(formError);
     runLocalData()
   }, [])
   if (redirect) {
-   return <Signin/>
+   return <Navigate to={"/signin"}/>
+    
+  }
+  if (isAuth) {
+    return <Navigate to={"/account"}/>
     
   }
 

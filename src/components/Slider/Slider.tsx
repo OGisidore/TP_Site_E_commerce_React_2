@@ -20,6 +20,7 @@ const Slider: FC<SliderProps> = () => {
 
   // const [state, setState]=useState<any>({})
   const [sliders, setSliders]=useState<Sliders[]>([])
+// console.log(sliders);
 
 // const getSlider = async() : Array<Promise>=>{
 //   const slider = await getDataByPage("slide", 1, 3)
@@ -34,18 +35,20 @@ const Slider: FC<SliderProps> = () => {
   useEffect(() => {
     window.scrollTo(0, 0)
     const runLocalData = async () => {
-      const datas: RequestResponse = await getDataByPage("slide", 1, 3)
+       const datas: RequestResponse = await getDataByPage("slide", 1, 3)
       if (datas.isSuccess) {
         const results : Sliders[] = (datas.results as Sliders[])
          setSliders(results)   
       }
+  //  console.log(datas);
+   
      
         
      
 
     }
     runLocalData()
-  })
+  },[])
 
   return (
     <div className="banner_section slide_medium shop_banner_slider staggered-animation-wrap">

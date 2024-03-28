@@ -2,6 +2,6 @@
 
 export interface RequestResponse {
     isSuccess: boolean,
-    result: Array<any>,
+    result: any,
     results: Array<any>
 }

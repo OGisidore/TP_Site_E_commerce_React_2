@@ -38,7 +38,8 @@ const Footer: FC<FooterProps> = ({ metas }) => {
                 <div className="footer_logo"><a href="#">
                   <h2>Jstore</h2>
                 </a></div>
-                <p>{getMetas(metas, "site_description")} </p>
+                <p>
+                  {getMetas(metas, "site_description")} </p>
               </div>
               <div className="widget">
                 <ul className="social_icons social_white">
@@ -48,21 +49,21 @@ const Footer: FC<FooterProps> = ({ metas }) => {
                         <a target="_blank" href={getMetas(metas, "facebook_link")}><i className="ion-social-facebook" /></a>
                       </li> : null
                   }
-                 
+
                   {
                     getMetas(metas, "youtub_links") ?
-                  <li><a target="_blank" href={getMetas(metas, "youtub_links")}><i className="ion-social-youtube-outline" /></a>
-                  </li>:null
+                      <li><a target="_blank" href={getMetas(metas, "youtub_links")}><i className="ion-social-youtube-outline" /></a>
+                      </li> : null
                   }
-                    {
+                  {
                     getMetas(metas, "instagram_link") ?
-                  <li><a target="_blank" href={getMetas(metas, "youtube_link")}><i className="ion-social-instagram-outline" /></a>
-                  </li>:null
+                      <li><a target="_blank" href={getMetas(metas, "instagram_link")}><i className="ion-social-instagram-outline" /></a>
+                      </li> : null
                   }
 
-                  
-                 
-                 
+
+
+
                 </ul>
               </div>
             </div>
@@ -107,14 +108,27 @@ const Footer: FC<FooterProps> = ({ metas }) => {
               <div className="widget">
                 <h6 className="widget_title">Contact Info</h6>
                 <ul className="contact_info contact_info_light">
-                  <li><i className="ti-location-pin" />
-                    <p>{getMetas(metas, "site_address")}</p>
-                  </li>
-                  <li><i className="ti-email" /><a href={"mailto:" + getMetas(metas, "site_email")}>{getMetas(metas, "site_email")}</a>
-                  </li>
-                  <li><i className="ti-mobile" />
-                    <p>{getMetas(metas, "site_phone")}</p>
-                  </li>
+                  {
+                    getMetas(metas, "site_address") ?
+                      <li><i className="ti-location-pin" />
+                        <p>{getMetas(metas, "site_address")}</p>
+                      </li> : null
+                  }
+                  {
+                    getMetas(metas, "site_email") ?
+                      <li><i className="ti-email" /><a href={"mailto:" + getMetas(metas, "site_email")}>{getMetas(metas, "site_email")}</a>
+                      </li> : null
+                  }
+                  {
+                    getMetas(metas, "site_phone") ?
+                      <li><i className="ti-mobile" />
+                        <p>{getMetas(metas, "site_phone")}</p>
+                      </li> : null
+                  }
+
+
+
+
                 </ul>
               </div>
             </div>
@@ -125,7 +139,7 @@ const Footer: FC<FooterProps> = ({ metas }) => {
         <div className="container">
           <div className="row">
             <div className="col-md-6">
-              <p className="mb-md-0 text-center text-md-start"> {getMetas(metas, "~")} </p>
+              <p className="mb-md-0 text-center text-md-start"> {getMetas(metas, "site_copyrigth")} </p>
             </div>
             <div className="col-md-6">
               <ul className="footer_payment text-center text-lg-end d-flex gap-2 justify-content-end">

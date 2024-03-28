@@ -1,4 +1,5 @@
 import { Meta } from "../models/Meta";
+import { Product } from "../models/Products";
 
 
 export const getMetas =  (metas:Meta[], name:string)=>{
@@ -45,3 +46,49 @@ export  const validateRegisterForm = (values : any) => {
   
     return errors;
   };
+
+  
+export  const validateLoginForm = (values : any) => {
+  const errors : any = {};
+  if (!values.email) {
+    errors.email = 'Required';
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    errors.email = 'Invalid email address';
+  }
+
+  if (!values.password) {
+    errors.password = 'Required';
+  } else if (values.password.length < 6) {
+      errors.password = 'Must be 6 characters or more';
+    } else if (values.password.length > 20) {
+    errors.password = 'Must be 20 characters or less';
+  }
+  return errors;
+};
+export const loadScript = ()=>{
+  console.log("YES");
+  
+  const firstScript = document.getElementById("firstScript")
+  if (!firstScript) {
+    const script = document.createElement("script")
+    script.src = "/assets/js/scripts.js"
+    script.id = "firstScript"
+    document.body.appendChild(script)
+    
+    
+  }
+}
+export const reductionRate = (product : Product)=>{
+ let result = 0
+ result = (product.regular_price - product.solde_price)*100 / product.regular_price
+ return result.toFixed(0)
+}
+
+export const formatPrice = (price:number, currency:string = "USD")=>{
+  let option = {
+    style : "currency",
+    currency : currency
+  }
+  return new Intl.NumberFormat("fr-FR",option).format(price)
+
+}

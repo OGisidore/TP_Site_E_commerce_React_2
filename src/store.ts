@@ -1,10 +1,12 @@
-import { combineReducers, createStore } from 'redux'
+import { combineReducers, legacy_createStore as createStore } from 'redux'
 import { devToolsEnhancer } from 'redux-devtools-extension'
-import { CounterReducer } from './features/counter'
+import { authReducers } from './redux/reducers/authReducers'
+import { cartReducers } from './redux/reducers/cartReducers'
 
 /* Create root reducer, containing all features of the application */
 const rootReducer = combineReducers({
-  count: CounterReducer,
+  auth: authReducers,
+  cart : cartReducers,
 })
 
 const store = createStore(
