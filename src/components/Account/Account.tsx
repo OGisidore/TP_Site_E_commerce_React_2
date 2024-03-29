@@ -7,6 +7,8 @@
 import React, { FC, useEffect } from 'react';
 import './Account.css';
 import PageBanner from '../PageBanner/PageBanner';
+import { useDispatch } from 'react-redux';
+import { LOGOUT } from '../../redux/actions/actionTypes';
 
 
 interface AccountProps {
@@ -17,6 +19,16 @@ interface AccountProps {
 const Account : FC<AccountProps> = () =>{
 
 
+  const dispatch = useDispatch()
+
+  const handleLogout = (event: any) => {
+    event.preventDefault()
+    dispatch({
+      type: LOGOUT,
+      payload: null
+    })
+
+  }
 
     useEffect(() => {
       window.scrollTo(0,0)
@@ -82,7 +94,7 @@ const Account : FC<AccountProps> = () =>{
                       <a href="#">edit your password and
                         account details.</a>
                     </p>
-                    <button type="submit" className="btn btn-fill-out py-2" name="submit" value="Submit">Logout
+                    <button type="submit" onClick={(event)=>handleLogout(event)} className="btn btn-fill-out py-2" name="submit" value="Submit">Logout
                     </button>
                   </div>
                 </div>

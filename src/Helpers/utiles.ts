@@ -92,3 +92,16 @@ export const formatPrice = (price:number, currency:string = "USD")=>{
   return new Intl.NumberFormat("fr-FR",option).format(price)
 
 }
+
+export const sonnorEffect = (status = "success")=>{
+  const audio = document.createElement("audio")
+  audio.src = `/assets/audios/${status}.wav`
+  audio.play()
+}
+
+export const generateID = ()=>{
+  var timestamp = (new Date().getTime() / 1000 | 0).toString(16);
+  return timestamp + 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'.replace(/[x]/g, function(){
+    return (Math.random()*16 | 0 ).toString(16)
+  }).toLowerCase();
+}

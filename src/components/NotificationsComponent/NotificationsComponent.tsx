@@ -9,6 +9,8 @@ import './NotificationsComponent.css';
 import { useSelector } from 'react-redux';
 import { getNotification } from '../../redux/selectors/GlobalSelectors';
 import { NotificationItem } from '../../redux/actions/types';
+import { useDispatch } from 'react-redux';
+import { REMOVE_NOTIFICATION_ITEM } from '../../redux/actions/actionTypes';
 
 
 interface NotificationsComponentProps {
@@ -20,10 +22,23 @@ const NotificationsComponent: FC<NotificationsComponentProps> = () => {
 
 
 const notifications = useSelector(getNotification)
+const dispatch = useDispatch()
+
+const handleRemoveNotificatiion = (notification : NotificationItem)=>{
+  dispatch({
+    type : REMOVE_NOTIFICATION_ITEM,
+    payload : {
+      ...notification
+    }
+  })
+
+}
   useEffect(() => {
-    window.scrollTo(0, 0)
+    
     const runLocalData = async () => {
-      console.log(notifications);
+      notifications.map((notification  : NotificationItem)=>{
+        setTimeout(()=>handleRemoveNotificatiion(notification),5000)
+      })
       
 
     }
@@ -36,8 +51,9 @@ const notifications = useSelector(getNotification)
         notifications?.map((notification : NotificationItem)=>{
           return  <div className={"alert  alert-dismissible fade show alert-"+notification.status} role="alert">
             <p>{notification.message} </p>
+            <span onClick={()=>handleRemoveNotificatiion(notification)} className='btn btn-close'></span>
         
-        <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close" />
+        {/* <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close" /> */}
       </div>
         })
       }

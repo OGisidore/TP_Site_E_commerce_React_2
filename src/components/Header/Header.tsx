@@ -4,7 +4,7 @@
   App Name : E-commerce with React.Js
   Created At : 22/03/2024 10:59:02
 */
-import React, { FC, useEffect, Fragment } from 'react';
+import React, { FC, useEffect, Fragment, useState } from 'react';
 // import Loading from '../Loading/Loading';
 import './Header.css';
 import { Meta } from '../../models/Meta';
@@ -15,6 +15,9 @@ import { getAuthState, getCart } from '../../redux/selectors/GlobalSelectors';
 import { useDispatch } from 'react-redux';
 import { LOGOUT, REMOVE_FROM_CART } from '../../redux/actions/actionTypes';
 import { Article } from '../../models/Article';
+import { searchDatas } from '../../api/entities';
+import { RequestResponse } from '../../models/requestResponse';
+import { Page } from '../../models/Page';
 
 
 interface HeaderProps {
@@ -26,7 +29,7 @@ interface HeaderProps {
 const Header: FC<HeaderProps> = ({ metas }) => {
 
 
-  // const [meta, setMeta] = useState<Meta[]>([])
+  const [pages, setPages] = useState<Page[]>([])
   const isAuth = useSelector(getAuthState)
   const cart = useSelector(getCart)
 
@@ -36,6 +39,12 @@ const Header: FC<HeaderProps> = ({ metas }) => {
   useEffect(() => {
     
     const runLocalData = async () => {
+      const query = "isTop=true"
+      const page : RequestResponse = await searchDatas("page", query)
+      if (page.isSuccess) {
+        setPages(page.results as Page[])
+      }
+        
       // console.log({ cart });
 
 
@@ -140,12 +149,14 @@ const Header: FC<HeaderProps> = ({ metas }) => {
                   <li className="dropdown"><a href="#" data-bs-toggle="dropdown" className="dropdown-toggle nav-link active" aria-expanded="false">Pages</a>
                     <div className="dropdown-menu">
                       <ul>
-                        <li><a className="dropdown-item nav-link nav_item" href="/about">About Us</a></li>
-                        <li><a className="dropdown-item nav-link nav_item" href="/contact">Contact Us</a></li>
-                        <li><a className="dropdown-item nav-link nav_item" href="/fqa">Faq</a></li>
-                        <li><a className="dropdown-item nav-link nav_item" href="/signin">Login</a></li>
-                        <li><a className="dropdown-item nav-link nav_item" href="/signup">Register</a></li>
-                        <li><a className="dropdown-item nav-link nav_item" href="/terms">Terms and Conditions</a></li>
+                        {
+                          pages.map((page : Page , index : number)=>{
+                            return  <li key={index}>
+                              <Link to={"/page/" + page.slug} className="dropdown-item nav-link nav_item" >{page.name} </Link></li>
+
+                          })
+                        }
+                       
                       </ul>
                     </div>
                   </li>

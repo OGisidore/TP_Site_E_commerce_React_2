@@ -15,6 +15,7 @@ import SingleProduct from './pages/SingleProduct/SingleProduct'
 import Cart from './pages/Cart/Cart'
 import Checkout from './pages/Checkout/Checkout'
 import NotificationsComponent from './components/NotificationsComponent/NotificationsComponent'
+import PageComponent from './pages/PageComponent/PageComponent'
 
 const App: React.FC = () => {
   const [meta, setMeta] = useState<Meta[]>([])
@@ -45,6 +46,7 @@ const App: React.FC = () => {
           <Route path="/signin" element={<Signin />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/page/:slug" element={<PageComponent />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/product/:slug" element={<SingleProduct />} />
           <Route path="/account" element={<PrivateRoute><Account /></PrivateRoute> } />

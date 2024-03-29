@@ -33,10 +33,10 @@ const Signup: FC<SignupProps> = () => {
   // validateRegisterForm
   const formik = useFormik({
     initialValues: {
-      fullName: '',
-      password: '',
-      email: '',
-      confirmPassword: '',
+      fullName: 'isidore2',
+      password: '123654',
+      email: 'i@gmail.com',
+      confirmPassword: '123654',
       acceptedTerms : false
     },
     validate,
@@ -143,8 +143,8 @@ console.log(formError);
                           type="password"
                           placeholder="Confirm Password"
                           onChange={formik.handleChange}
-                          // defaultValue={formik.values.confirmPassword}
-                          value={formik.values.confirmPassword}
+                          defaultValue={formik.values.confirmPassword}
+                          // value={formik.values.confirmPassword}
                           className="form-control" />
                           {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
                           <div className='error'>{formik.errors.confirmPassword}</div>

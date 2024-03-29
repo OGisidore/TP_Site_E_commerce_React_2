@@ -1,3 +1,4 @@
+import { sonnorEffect } from "../../Helpers/utiles";
 import { Article } from "../../models/Article";
 import { getItem, setItem } from "../../services/localstorage.services";
 import { ADD_TO_CART, REMOVE_FROM_CART } from "../actions/actionTypes";
@@ -13,6 +14,7 @@ const initCart: CartGlobalState = cart ? cart : {
 export const cartReducers = (state: CartGlobalState = initCart, action: CartAction = { type: null, payload: null },) => {
     switch (action?.type) {
         case ADD_TO_CART:
+            sonnorEffect('success')
             const { payload } = action
             if (payload) {
                 const existingItem = state.items.find((item) => item.product._id === payload.product._id)
@@ -40,6 +42,7 @@ export const cartReducers = (state: CartGlobalState = initCart, action: CartActi
 
             break;
         case REMOVE_FROM_CART:
+            sonnorEffect('change')
             if (action?.payload) {
                 
                 

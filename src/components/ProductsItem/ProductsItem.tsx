@@ -8,7 +8,7 @@ import React, { FC, useEffect } from 'react';
 import './ProductsItem.css';
 import { Product } from '../../models/Products';
 import { Link } from 'react-router-dom';
-import { formatPrice, reductionRate } from '../../Helpers/utiles';
+import { formatPrice, generateID, reductionRate } from '../../Helpers/utiles';
 import { useDispatch } from 'react-redux';
 import { ADD_NOTIFICATION, ADD_TO_CART } from '../../redux/actions/actionTypes';
 
@@ -24,7 +24,7 @@ const ProductsItem: FC<ProductsItemProps> = ({ product }) => {
 
 
   useEffect(() => {
-    window.scrollTo(0, 0)
+   
     const runLocalData = async () => {
 
     }
@@ -43,7 +43,7 @@ const ProductsItem: FC<ProductsItemProps> = ({ product }) => {
     dispatch({
       type: ADD_NOTIFICATION,
       payload: {
-        _id: 'plorfijdoi',
+        _id: generateID(),
         message: product.name + " added to cart !",
         status: "success"
       }

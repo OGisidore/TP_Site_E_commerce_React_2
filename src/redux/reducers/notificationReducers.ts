@@ -1,3 +1,4 @@
+import { sonnorEffect } from "../../Helpers/utiles";
 import { ADD_NOTIFICATION, CLEAR_NOTIFICATIONS, REMOVE_NOTIFICATION_ITEM } from "../actions/actionTypes";
 import { NotificationActions, NotificationDatas, NotificationItem } from "../actions/types"
 
@@ -6,10 +7,12 @@ const initState: NotificationDatas = {
 
 }
 
+
 export const notificationReducers = ( state = initState, action: NotificationActions = {type : null , payload : null}) => {
 
     switch (action.type) {
         case ADD_NOTIFICATION:
+            sonnorEffect()
             return {
                 notifications: [...state.notifications, action.payload]
 
@@ -17,6 +20,7 @@ export const notificationReducers = ( state = initState, action: NotificationAct
             }
             break;
         case REMOVE_NOTIFICATION_ITEM:
+            // sonnorEffect()
             state.notifications = state.notifications.filter((item: NotificationItem) => item._id !== action.payload?._id)
             return {
                 notifications: [...state.notifications,]
@@ -24,6 +28,7 @@ export const notificationReducers = ( state = initState, action: NotificationAct
 
             break;
         case CLEAR_NOTIFICATIONS:
+            sonnorEffect()
             return { ...initState }
 
             break;
