@@ -10,7 +10,7 @@ import { Product } from '../../models/Products';
 import { Link } from 'react-router-dom';
 import { formatPrice, reductionRate } from '../../Helpers/utiles';
 import { useDispatch } from 'react-redux';
-import { ADD_TO_CART } from '../../redux/actions/actionTypes';
+import { ADD_NOTIFICATION, ADD_TO_CART } from '../../redux/actions/actionTypes';
 
 
 interface ProductsItemProps {
@@ -20,7 +20,7 @@ interface ProductsItemProps {
 
 
 const ProductsItem: FC<ProductsItemProps> = ({ product }) => {
-const dispatch = useDispatch()
+  const dispatch = useDispatch()
 
 
   useEffect(() => {
@@ -30,14 +30,22 @@ const dispatch = useDispatch()
     }
     runLocalData()
   })
-  const addToCart =(e:any)=>{
+  const addToCart = (e: any) => {
     e.preventDefault()
     dispatch({
-      type : ADD_TO_CART,
-      payload : {
-        product : product,
-        quantity : 1,
-        sub_total : product.solde_price
+      type: ADD_TO_CART,
+      payload: {
+        product: product,
+        quantity: 1,
+        sub_total: product.solde_price
+      }
+    })
+    dispatch({
+      type: ADD_NOTIFICATION,
+      payload: {
+        _id: 'plorfijdoi',
+        message: product.name + " added to cart !",
+        status: "success"
       }
     })
 
@@ -84,8 +92,8 @@ const dispatch = useDispatch()
           </Link>
         </h6>
         <div className="product_price">
-          <span className="price"> {formatPrice(product?.solde_price) } </span>
-          <del>{ formatPrice(product?.regular_price)} </del>
+          <span className="price"> {formatPrice(product?.solde_price)} </span>
+          <del>{formatPrice(product?.regular_price)} </del>
           <div className="on_sale">
             <span>{reductionRate(product)}% Off</span>
           </div>

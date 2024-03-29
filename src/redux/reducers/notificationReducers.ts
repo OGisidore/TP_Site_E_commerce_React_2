@@ -1,26 +1,33 @@
-import { ADD_NOTIFICATION, CLEAR_NOTIFICATION } from "../actions/actionTypes";
-import {  NotificationActions, NotificationDatas } from "../actions/types"
+import { ADD_NOTIFICATION, CLEAR_NOTIFICATIONS, REMOVE_NOTIFICATION_ITEM } from "../actions/actionTypes";
+import { NotificationActions, NotificationDatas, NotificationItem } from "../actions/types"
 
-const initState : NotificationDatas = {
-    message: '',
-    status : 'success',
-    timeout : 5000
+const initState: NotificationDatas = {
+    notifications: []
+
 }
 
-export const notificationReducers = ( action:NotificationActions,state = initState)=>{
-    switch (action.type) {
-        case ADD_NOTIFICATION: 
-        return{
-            ...action.payload
+export const notificationReducers = ( state = initState, action: NotificationActions = {type : null , payload : null}) => {
 
-        }
-            
+    switch (action.type) {
+        case ADD_NOTIFICATION:
+            return {
+                notifications: [...state.notifications, action.payload]
+
+
+            }
             break;
-            case CLEAR_NOTIFICATION: 
-            return {...initState}
-                
-                break;
-    
+        case REMOVE_NOTIFICATION_ITEM:
+            state.notifications = state.notifications.filter((item: NotificationItem) => item._id !== action.payload?._id)
+            return {
+                notifications: [...state.notifications,]
+            }
+
+            break;
+        case CLEAR_NOTIFICATIONS:
+            return { ...initState }
+
+            break;
+
         default:
             return state
             break;

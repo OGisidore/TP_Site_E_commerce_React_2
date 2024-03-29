@@ -1,4 +1,4 @@
-import { CartGlobalState } from "../../actions/types"
+import { CartGlobalState, NotificationDatas } from "../../actions/types"
 
 
 interface AuthData{
@@ -10,4 +10,5 @@ interface AuthData{
 export interface GlobalState{
     auth:AuthData
     cart : CartGlobalState
+    datas : NotificationDatas
 }

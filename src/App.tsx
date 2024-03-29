@@ -14,6 +14,7 @@ import PrivateRoute from './guard/PrivateRoute/PrivateRoute'
 import SingleProduct from './pages/SingleProduct/SingleProduct'
 import Cart from './pages/Cart/Cart'
 import Checkout from './pages/Checkout/Checkout'
+import NotificationsComponent from './components/NotificationsComponent/NotificationsComponent'
 
 const App: React.FC = () => {
   const [meta, setMeta] = useState<Meta[]>([])
@@ -49,6 +50,7 @@ const App: React.FC = () => {
           <Route path="/account" element={<PrivateRoute><Account /></PrivateRoute> } />
         </Routes>
         <Footer metas={meta}/>
+        <NotificationsComponent/>
       
     </BrowserRouter>
   )

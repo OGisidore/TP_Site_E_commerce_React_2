@@ -1,6 +1,6 @@
 import { Article } from "../../models/Article";
 import { Product } from "../../models/Products";
-import { ADD_NOTIFICATION, ADD_TO_CART, CLEAR_NOTIFICATION, CONNECTED, LOGOUT, REMOVE_FROM_CART } from "./actionTypes";
+import { ADD_NOTIFICATION, ADD_TO_CART, CLEAR_NOTIFICATIONS, CONNECTED, LOGOUT, REMOVE_FROM_CART, REMOVE_NOTIFICATION_ITEM } from "./actionTypes";
 
 interface UserConnectedData{
     token : string,
@@ -25,15 +25,19 @@ export interface CartGlobalState {
     quantity : number
     sub_total : number
 }
-
-export interface NotificationDatas{
+export interface NotificationItem {
+    _id : string,
     message:string,
     status : string,
     timeout: number
 }
 
+export interface NotificationDatas{
+    notifications : NotificationItem []
+}
+
 export interface NotificationActions {
-    type : typeof ADD_NOTIFICATION | typeof CLEAR_NOTIFICATION
-    payload : NotificationDatas | null
+    type : typeof ADD_NOTIFICATION | typeof CLEAR_NOTIFICATIONS | typeof REMOVE_NOTIFICATION_ITEM | null
+    payload : NotificationItem | null
 
 }
