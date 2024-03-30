@@ -1,6 +1,8 @@
 import { Article } from "../../models/Article";
 import { Product } from "../../models/Products";
-import { ADD_NOTIFICATION, ADD_TO_CART, CLEAR_NOTIFICATIONS, CONNECTED, LOGOUT, REMOVE_FROM_CART, REMOVE_NOTIFICATION_ITEM } from "./actionTypes";
+import { ADD_NOTIFICATION,
+     ADD_TO_CART, ADD_TO_STORAGE, CLEAR_NOTIFICATIONS, CONNECTED,
+      LOGOUT, REMOVE_FROM_CART, REMOVE_FROM_STORAGE, REMOVE_NOTIFICATION_ITEM } from "./actionTypes";
 
 interface UserConnectedData{
     token : string,
@@ -40,4 +42,10 @@ export interface NotificationActions {
     type : typeof ADD_NOTIFICATION | typeof CLEAR_NOTIFICATIONS | typeof REMOVE_NOTIFICATION_ITEM | null
     payload : NotificationItem | null
 
+}
+
+export interface StorageAction{
+    type : typeof ADD_TO_STORAGE | typeof REMOVE_FROM_STORAGE | null
+    key:string | null
+    payload : Product| null
 }

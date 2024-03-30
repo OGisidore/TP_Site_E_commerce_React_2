@@ -19,7 +19,7 @@ const PageBanner: FC<PageBannerProps> = ({name}) => {
 
 
   useEffect(() => {
-    window.scrollTo(0, 0)
+    // window.scrollTo(0, 0)
     const runLocalData = async () => {
 
     }
@@ -43,7 +43,7 @@ const PageBanner: FC<PageBannerProps> = ({name}) => {
             </ol>
           </div>
         </div>
-      </div>{/* END CONTAINER*/}
+      </div>
     </div>
   );
 }

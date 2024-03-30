@@ -22,21 +22,23 @@ interface PageComponentProps {
 
 const PageComponent: FC<PageComponentProps> = () => {
 
-  // const [state, setState] = useState<any>(null)
+  const [error, setError] = useState<boolean>(false)
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState<Page | null>(null);
-  const { slug } = useParams()
+  let { slug } = useParams()
 
   useEffect(() => {
     window.scrollTo(0, 0)
     const runLocalData = async () => {
       if (slug) {
         const pages: RequestResponse = await getDatasBySlug("page", slug)
-if (pages.isSuccess) {
-  
-        setPage(pages.result)
-        setLoading(false)
-}
+        if (pages.isSuccess) {
+          setPage(pages.result)
+          setLoading(false)
+        } else {
+          slug = undefined
+          setError(true)
+        }
       }
 
 
@@ -45,7 +47,12 @@ if (pages.isSuccess) {
   }, [slug])
 
   if (!slug) {
-    return <Navigate to={"error"} />
+    return <Navigate to={"/error"} />
+
+  }
+
+  if (error) {
+    return <Navigate to={"/error"} />
 
   }
   return (
@@ -57,10 +64,10 @@ if (pages.isSuccess) {
 
             <PageBanner name={page!.name} />
             <div className="container"
-            dangerouslySetInnerHTML={{__html:page?.content}}
+              dangerouslySetInnerHTML={{ __html: page?.content }}
             />
-            
-            
+
+
           </>
           :
           <Loading />

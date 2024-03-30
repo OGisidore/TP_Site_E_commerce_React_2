@@ -49,7 +49,7 @@ const handleRemoveNotificatiion = (notification : NotificationItem)=>{
     <div className="NotificationsComponent">
       {
         notifications?.map((notification : NotificationItem)=>{
-          return  <div className={"alert  alert-dismissible fade show alert-"+notification.status} role="alert">
+          return  <div className={"alert  alert-dismissible fade show alert-"+notification.status} role="alert" key={notification._id}>
             <p>{notification.message} </p>
             <span onClick={()=>handleRemoveNotificatiion(notification)} className='btn btn-close'></span>
         

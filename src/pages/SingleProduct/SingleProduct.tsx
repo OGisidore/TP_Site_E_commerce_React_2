@@ -26,8 +26,7 @@ const SingleProduct: FC<SingleProductProps> = () => {
  const {slug} = params
   const [loading, setLoading] = useState<boolean>(true)
   const [product, setProduct] = useState<Product | null>(null)
-
-
+ 
 
 
   useEffect(() => {
@@ -50,7 +49,7 @@ const SingleProduct: FC<SingleProductProps> = () => {
 
     }
     runLocalData()
-    console.log(product?.relatedProducts);
+    // console.log(product?.relatedProducts);
     
   },[loading , slug])
 
@@ -123,9 +122,9 @@ const SingleProduct: FC<SingleProductProps> = () => {
                       <div className="cart_extra">
                         <div className="cart-product-quantity">
                           <div className="quantity">
-                            <input type="button" value="-" className="minus" />
-                            <input type="text" name="quantity" value="1" title="Qty" className="qty" size={4} />
-                            <input type="button" value="+" className="plus" />
+                            <input type="button"  value="-" className="minus" />
+                            <input type="text" name="quantity" value='1' title="Qty" className="qty" size={4} />
+                            <input type="button"  value="+" className="plus" />
                           </div>
                         </div>
                         <div className="cart_btn">

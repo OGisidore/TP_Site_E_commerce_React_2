@@ -11,4 +11,5 @@ export interface GlobalState{
     auth:AuthData
     cart : CartGlobalState
     datas : NotificationDatas
+    storage : any
 }

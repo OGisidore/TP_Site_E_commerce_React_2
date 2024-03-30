@@ -16,44 +16,52 @@ import Cart from './pages/Cart/Cart'
 import Checkout from './pages/Checkout/Checkout'
 import NotificationsComponent from './components/NotificationsComponent/NotificationsComponent'
 import PageComponent from './pages/PageComponent/PageComponent'
+import ErrorPage from './pages/ErrorPage/ErrorPage'
+import WishList from './pages/WishList/WishList'
+import Compare from './pages/Compare/Compare'
 
 const App: React.FC = () => {
   const [meta, setMeta] = useState<Meta[]>([])
-  
+
   useEffect(() => {
-    window.scrollTo(0,0)
+    window.scrollTo(0, 0)
     const runLocalData = async () => {
       const datas: RequestResponse = await getData("meta")
       // console.log({datas});
-      
+
       if (datas.isSuccess) {
-        const results : Meta[] = (datas.results as Meta[])
+        const results: Meta[] = (datas.results as Meta[])
         // console.log("ok");
-        
-        
-         setMeta(results)   
-      } 
-      
+
+
+        setMeta(results)
+      }
+
     }
     runLocalData()
-  },[])
+  }, [])
 
   return (
     <BrowserRouter>
-    <Header metas={meta}/>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/signin" element={<Signin />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/page/:slug" element={<PageComponent />} />
-          <Route path="/checkout" element={<Checkout />} />
-          <Route path="/product/:slug" element={<SingleProduct />} />
-          <Route path="/account" element={<PrivateRoute><Account /></PrivateRoute> } />
-        </Routes>
-        <Footer metas={meta}/>
-        <NotificationsComponent/>
-      
+      <Header metas={meta} />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/signin" element={<Signin />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/wishlist" element={<WishList />} />
+        <Route path="/compare" element={<Compare />} />
+        <Route path="/error" element={<ErrorPage />} />
+        <Route path="/page/:slug" element={<PageComponent />} />
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/product/:slug" element={<SingleProduct />} />
+        <Route path="/account" element={<PrivateRoute><Account /></PrivateRoute>} />
+        <Route path="/**" element={<ErrorPage />} />
+
+      </Routes>
+      <Footer metas={meta} />
+      <NotificationsComponent />
+
     </BrowserRouter>
   )
 }

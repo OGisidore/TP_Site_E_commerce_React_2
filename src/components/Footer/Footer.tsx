@@ -4,10 +4,14 @@
   App Name : E-commerce with React.Js
   Created At : 22/03/2024 11:40:59
 */
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import './Footer.css';
 import { Meta } from '../../models/Meta';
 import { getMetas } from '../../Helpers/utiles';
+import { RequestResponse } from '../../models/requestResponse';
+import { searchDatas } from '../../api/entities';
+import { Page } from '../../models/Page';
+import { Link } from 'react-router-dom';
 
 
 interface FooterProps {
@@ -18,11 +22,16 @@ interface FooterProps {
 
 const Footer: FC<FooterProps> = ({ metas }) => {
 
-
+  const [pages, setPages] = useState<Page[]>([])
+  // const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
-    window.scrollTo(0, 0)
     const runLocalData = async () => {
+      const query = "isBottom=true"
+      const page : RequestResponse = await searchDatas("page", query)
+      if (page.isSuccess) {
+        setPages(page.results as Page[])
+      }
 
     }
     runLocalData()
@@ -71,11 +80,14 @@ const Footer: FC<FooterProps> = ({ metas }) => {
               <div className="widget">
                 <h6 className="widget_title">Useful Links</h6>
                 <ul className="widget_links">
-                  <li><a ng-reflect-router-link="/page,a-propos-de-nous-shop" href="/page/a-propos-de-nous-shop">A Propos de nous</a></li>
-                  <li><a ng-reflect-router-link="/page,nos-services-jstore" href="/page/nos-services-jstore">Nos services</a></li>
-                  <li><a ng-reflect-router-link="/page,contactez-nous-category" href="/page/contactez-nous-category">Contactez-Nous</a></li>
-                  <li><a ng-reflect-router-link="/page,nos-partenaires-mudey" href="/page/nos-partenaires-mudey">Nos partenaires</a></li>
-                  <li><a ng-reflect-router-link="/page,mentions-lgales-espero" href="/page/mentions-lgales-espero">Mentions légales</a></li>
+                  {
+                    pages.map((page:Page)=>{
+                      return  <li key={page._id}>
+                        <Link  to={"/page/" + page.slug}>{page.name}</Link></li>
+                    })
+                  }
+                  
+                 
                 </ul>
               </div>
             </div>

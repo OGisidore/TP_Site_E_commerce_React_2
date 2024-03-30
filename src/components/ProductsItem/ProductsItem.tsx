@@ -10,7 +10,7 @@ import { Product } from '../../models/Products';
 import { Link } from 'react-router-dom';
 import { formatPrice, generateID, reductionRate } from '../../Helpers/utiles';
 import { useDispatch } from 'react-redux';
-import { ADD_NOTIFICATION, ADD_TO_CART } from '../../redux/actions/actionTypes';
+import { ADD_NOTIFICATION, ADD_TO_CART, ADD_TO_STORAGE } from '../../redux/actions/actionTypes';
 
 
 interface ProductsItemProps {
@@ -24,12 +24,12 @@ const ProductsItem: FC<ProductsItemProps> = ({ product }) => {
 
 
   useEffect(() => {
-   
+
     const runLocalData = async () => {
 
     }
     runLocalData()
-  })
+  },[])
   const addToCart = (e: any) => {
     e.preventDefault()
     dispatch({
@@ -50,7 +50,40 @@ const ProductsItem: FC<ProductsItemProps> = ({ product }) => {
     })
 
   }
-
+  const addToWishlist = (event: any , productItem:Product) => {
+    event.preventDefault()
+    dispatch({
+      type : ADD_TO_STORAGE,
+      key : "wishlists",
+      payload : productItem
+    })
+    dispatch({
+      type: ADD_NOTIFICATION,
+      payload: {
+        _id: generateID(),
+        message: product.name + " added to wishllist !",
+        status: "success",
+        timeout : 2000
+      }
+    })
+  }
+  const addToCompare = (event: any , productItem:Product) => {
+    event.preventDefault()
+    dispatch({
+      type : ADD_TO_STORAGE,
+      key : "compareLists",
+      payload : productItem
+    })
+    dispatch({
+      type: ADD_NOTIFICATION,
+      payload: {
+        _id: generateID(),
+        message: product.name + " added to Compare !",
+        status: "success",
+        timeout : 2000
+      }
+    })
+  }
   return (
     <div className="product">
       <div className="product_img">
@@ -68,7 +101,8 @@ const ProductsItem: FC<ProductsItemProps> = ({ product }) => {
             </li>
             <li>
               <a
-                href="shop-compare.html"
+              onClick={(event)=>addToCompare(event,product)}
+                href="#"
                 className="popup-ajax">
                 <i className="icon-shuffle" />
               </a>
@@ -81,7 +115,11 @@ const ProductsItem: FC<ProductsItemProps> = ({ product }) => {
                   className="icon-magnifier-add" />
               </a>
             </li>
-            <li><a href="#"><i className="icon-heart" /></a></li>
+            <li>
+              <a href="#" onClick={(event)=>addToWishlist(event, product)}>
+                <i className="icon-heart" />
+              </a>
+            </li>
           </ul>
         </div>
       </div>

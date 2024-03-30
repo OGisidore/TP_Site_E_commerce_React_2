@@ -15,9 +15,12 @@ import { getAuthState, getCart } from '../../redux/selectors/GlobalSelectors';
 import { useDispatch } from 'react-redux';
 import { LOGOUT, REMOVE_FROM_CART } from '../../redux/actions/actionTypes';
 import { Article } from '../../models/Article';
-import { searchDatas } from '../../api/entities';
+import { getDataByPage, searchDatas } from '../../api/entities';
 import { RequestResponse } from '../../models/requestResponse';
 import { Page } from '../../models/Page';
+import { Category } from '../../models/category';
+import { Product } from '../../models/Products';
+import { MegaMenu } from '../../models/megaMenu';
 
 
 interface HeaderProps {
@@ -32,20 +35,32 @@ const Header: FC<HeaderProps> = ({ metas }) => {
   const [pages, setPages] = useState<Page[]>([])
   const isAuth = useSelector(getAuthState)
   const cart = useSelector(getCart)
+  const [categories, setCategories] = useState<Category[]>([])
+  const [megaCollections, setMegaCollections] = useState<MegaMenu[]>([])
 
   const dispatch = useDispatch()
 
 
   useEffect(() => {
-    
+
     const runLocalData = async () => {
-      const query = "isTop=true"
-      const page : RequestResponse = await searchDatas("page", query)
+      let query = "isTop=true"
+      const page: RequestResponse = await searchDatas("page", query)
       if (page.isSuccess) {
         setPages(page.results as Page[])
       }
-        
-      // console.log({ cart });
+      query = "isMega=true"
+      const categoryData: RequestResponse = await searchDatas("category", query)
+      if (categoryData.isSuccess) {
+        setCategories(categoryData.results as Category[])
+        // console.log({ categoryData });
+      }
+      const megaCollectionData: RequestResponse = await getDataByPage("megaCollection",1,3 )
+      if (megaCollectionData.isSuccess) {
+        setMegaCollections(megaCollectionData.results as MegaMenu[])
+      }
+
+
 
 
     }
@@ -60,13 +75,13 @@ const Header: FC<HeaderProps> = ({ metas }) => {
     })
 
   }
-  const handleRemoveCartItem = (event : any , item:Article)=>{
+  const handleRemoveCartItem = (event: any, item: Article) => {
     event.preventDefault()
     dispatch({
-      type : REMOVE_FROM_CART,
-      payload : {
-        product : item.product,
-        quantity : item.quantity
+      type: REMOVE_FROM_CART,
+      payload: {
+        product: item.product,
+        quantity: item.quantity
       }
     })
 
@@ -150,89 +165,58 @@ const Header: FC<HeaderProps> = ({ metas }) => {
                     <div className="dropdown-menu">
                       <ul>
                         {
-                          pages.map((page : Page , index : number)=>{
-                            return  <li key={index}>
+                          pages.map((page: Page, index: number) => {
+                            return <li key={index}>
                               <Link to={"/page/" + page.slug} className="dropdown-item nav-link nav_item" >{page.name} </Link></li>
 
                           })
                         }
-                       
+
                       </ul>
                     </div>
                   </li>
-                  <li className="dropdown dropdown-mega-menu"><a href="#" data-bs-toggle="dropdown" className="dropdown-toggle nav-link" aria-expanded="false">Products</a>
+                  <li className="dropdown dropdown-mega-menu">
+                    <a href="#" data-bs-toggle="dropdown" className="dropdown-toggle nav-link" aria-expanded="false">Products</a>
                     <div className="dropdown-menu">
                       <ul className="mega-menu d-lg-flex">
-                        <li className="mega-menu-col col-lg-3">
-                          <ul>
-                            <li className="dropdown-header">Robes</li>
-                            <li><a className="dropdown-item nav-link nav_item" ng-reflect-router-link="/,product,bikini-unicolore-cte" href="/product/bikini-unicolore-ctel-shop">Bikini unicolore
-                              côtelé</a><a className="dropdown-item nav-link nav_item" ng-reflect-router-link="/,product,jupe-crayon-taille-h" href="/product/jupe-crayon-taille-haute-en-dentelle">Jupe crayon
-                                taille haute en dentelle</a><a className="dropdown-item nav-link nav_item" ng-reflect-router-link="/,product,jupe-imprim-floral-t" href="/product/jupe-imprim-floral-taille-fronce">Jupe à imprimé
-                                  floral à taille froncée</a><a className="dropdown-item nav-link nav_item" ng-reflect-router-link="/,product,robe-fines-brides-im" href="/product/robe-fines-brides-imprim-tropical-en-dentelle">Robe à
-                                    fines brides à imprimé tropical en dentelle</a>
-                            </li>
-                          </ul>
-                        </li>
-                        <li className="mega-menu-col col-lg-3">
-                          <ul>
-                            <li className="dropdown-header">Jupes</li>
-                            <li><a className="dropdown-item nav-link nav_item" ng-reflect-router-link="/,product,bikini-unicolore-cte" href="/product/bikini-unicolore-ctel-shop">Bikini unicolore
-                              côtelé</a><a className="dropdown-item nav-link nav_item" ng-reflect-router-link="/,product,jupe-noire-brillante" href="/product/jupe-noire-brillante">Jupe noire brillante</a><a className="dropdown-item nav-link nav_item" ng-reflect-router-link="/,product,jupe-fendue-taille-h" href="/product/jupe-fendue-taille-haute">Jupe fendue taille
-                                haute</a><a className="dropdown-item nav-link nav_item" ng-reflect-router-link="/,product,jupe-imprim-floral-t" href="/product/jupe-imprim-floral-taille-fronce">Jupe à imprimé
-                                  floral à taille froncée</a>
-                            </li>
-                          </ul>
-                        </li>
-                        <li className="mega-menu-col col-lg-3">
-                          <ul>
-                            <li className="dropdown-header">Culotes </li>
-                            <li><a className="dropdown-item nav-link nav_item" ng-reflect-router-link="/,product,bikini-unicolore-cte" href="/product/bikini-unicolore-ctel-shop">Bikini unicolore
-                              côtelé</a><a className="dropdown-item nav-link nav_item" ng-reflect-router-link="/,product,culotte-en-dentelle-" href="/product/culotte-en-dentelle-mudey">Culotte en dentelle</a><a className="dropdown-item nav-link nav_item" ng-reflect-router-link="/,product,culotte-en-dentelle-" href="/product/culotte-en-dentelle-espero">Culotte en dentelle</a><a className="dropdown-item nav-link nav_item" ng-reflect-router-link="/,product,culotte-en-dentelle" href="/product/culotte-en-dentelle">Culotte en dentelle</a><a className="dropdown-item nav-link nav_item" ng-reflect-router-link="/,product,short-paillettes-bro" href="/product/short-paillettes-broderie-dchir">Short à paillettes à
-                                broderie déchiré</a>
-                            </li>
-                          </ul>
-                        </li>
-                        <li className="mega-menu-col col-lg-3">
-                          <ul>
-                            <li className="dropdown-header">Pantalons</li>
-                            <li><a className="dropdown-item nav-link nav_item" ng-reflect-router-link="/,product,pantalon-taille-haut" href="/product/pantalon-taille-haute-carreaux-avec-zip">Pantalon
-                              taille haute à carreaux avec zip</a><a className="dropdown-item nav-link nav_item" ng-reflect-router-link="/,product,pantalon-carreaux-av" href="/product/pantalon-carreaux-avec-cordon-la-taille">Pantalon à
-                                carreaux avec cordon à la taille</a><a className="dropdown-item nav-link nav_item" ng-reflect-router-link="/,product,pantalon-taille-fron" href="/product/pantalon-taille-fronce-poches">Pantalon à taille
-                                  froncée à poches</a><a className="dropdown-item nav-link nav_item" ng-reflect-router-link="/,product,pantalon-unicolore-t" href="/product/pantalon-unicolore-taille-haute">Pantalon unicolore
-                                    taille haute</a>
-                            </li>
-                          </ul>
-                        </li>
-                      </ul>
+                        {categories.map((category: Category) => {
+                          return <li className="mega-menu-col col-lg-3" key={category._id}>
+                            <ul>
+                              <li className="dropdown-header">{category.name}</li>
+
+                              {
+                                category.products.map((product: Product) => {
+                                  return <li key={product._id}>
+                                    <Link className="dropdown-item nav-link nav_item"
+                                      to={"/product/" + product.slug}>
+                                      <img src={product.imageUrls[1]} height={30} width={30} alt={product.name} />
+                                      {product.name}
+                                    </Link>
+                                  </li>
+                                })
+                              }
+                            </ul>
+                          </li>
+                        })}
+                            </ul>
                       <div className="d-lg-flex menu_banners row g-3 px-3">
-                        <div className="col-sm-4">
-                          <div className="header-banner"><img alt="menu_banner1" src="/assets/files/megaCollection/11736749706614988691774027121876766721152610541684827357419.png" />
+                        {
+                          megaCollections.map((megaCollection :MegaMenu)=>{
+                            return  <div className="col-sm-4" key={megaCollection._id}>
+                          <div className="header-banner"><img alt="menu_banner1"
+                           src={megaCollection.imageUrl} />
                             <div className="banne_info">
-                              <h6>10% Off</h6>
-                              <h4>New Arrival</h4><a href="http://localhost:4300/">Shop
-                                Now</a>
+                              <h6>{megaCollection.description}</h6>
+                              <h4>{megaCollection.title}</h4>
+                              <a href={megaCollection.buttom_link}>{megaCollection.button_text}</a>
                             </div>
                           </div>
-                        </div>
-                        <div className="col-sm-4">
-                          <div className="header-banner"><img alt="menu_banner1" src="/assets/files/megaCollection/8932488097310286313588503554459963159142614451684826970123.png" />
-                            <div className="banne_info">
-                              <h6>15% Off</h6>
-                              <h4>Men's Fashion</h4><a href="http://localhost:4300/">Shop
-                                Now</a>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="col-sm-4">
-                          <div className="header-banner"><img alt="menu_banner1" src="/assets/files/megaCollection/1412527185807988177642011518607795945067036381684827015102.png" />
-                            <div className="banne_info">
-                              <h6>23% Off</h6>
-                              <h4>Kids Fashion</h4><a href="http://localhost:4300/">Shop
-                                Now</a>
-                            </div>
-                          </div>
-                        </div>
+                        </div> 
+                          })
+                        }
+
+                       
+                       
                       </div>
                     </div>
                   </li>
@@ -284,7 +268,7 @@ const Header: FC<HeaderProps> = ({ metas }) => {
                             cart.items.map((item: Article, index: number) => {
                               const { product, quantity } = item
                               return <li key={index}>
-                                <a onClick={(event)=>handleRemoveCartItem(event, item)} href="#" className="item_remove">
+                                <a onClick={(event) => handleRemoveCartItem(event, item)} href="#" className="item_remove">
                                   <i className="ion-close" />
                                 </a>
                                 <a href="#"><img width={50} height={50} alt="cart_thumb1"
@@ -294,7 +278,7 @@ const Header: FC<HeaderProps> = ({ metas }) => {
                                   <span className="cart_amount">
                                     <span className="price_symbole"> {formatPrice(product.solde_price)}
 
-                                    </span> = 
+                                    </span> =
                                     <span className="price_symbole"> {formatPrice(item.sub_total)}</span>
                                   </span>
                                 </span>

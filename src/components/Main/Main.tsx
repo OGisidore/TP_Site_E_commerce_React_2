@@ -22,7 +22,7 @@ const Main: FC<MainProps> = () => {
 
 
   useEffect(() => {
-    window.scrollTo(0, 0)
+   
     const runLocalData = async () => {
       
     }

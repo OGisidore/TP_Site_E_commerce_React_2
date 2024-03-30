@@ -1,4 +1,5 @@
 export interface Page {
+    _id:string
     slug:string,
     name : string,
     content : string,

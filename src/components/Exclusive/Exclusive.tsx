@@ -63,7 +63,7 @@ const Exclusive: FC<ExclusiveProps> = () => {
 
 
   useEffect(() => {
-    window.scrollTo(0, 0)
+    // window.scrollTo(0, 0)
     const runLocalData = async () => {
       await getProducts()
       setLoading(false)
