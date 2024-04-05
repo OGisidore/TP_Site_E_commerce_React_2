@@ -47,5 +47,6 @@ export interface NotificationActions {
 export interface StorageAction{
     type : typeof ADD_TO_STORAGE | typeof REMOVE_FROM_STORAGE | null
     key:string | null
+    unique? : boolean,
     payload : Product| null
 }

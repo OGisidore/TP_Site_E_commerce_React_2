@@ -141,6 +141,7 @@ console.log(formError);
                         className="form-group mb-3">
                         <input
                           type="password"
+                          name='confirmPassword'
                           placeholder="Confirm Password"
                           onChange={formik.handleChange}
                           defaultValue={formik.values.confirmPassword}

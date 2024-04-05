@@ -20,16 +20,6 @@ const Slider: FC<SliderProps> = () => {
 
   // const [state, setState]=useState<any>({})
   const [sliders, setSliders]=useState<Sliders[]>([])
-// console.log(sliders);
-
-// const getSlider = async() : Array<Promise>=>{
-//   const slider = await getDataByPage("slide", 1, 3)
-//   console.log(slider.results);
-//   return  slider.results
-  
-// }
-// const sliders :{}[] = getSlider()
-// console.log(sliders);
 
   
   useEffect(() => {

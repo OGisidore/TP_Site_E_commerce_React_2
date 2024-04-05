@@ -9,7 +9,7 @@ import React, { FC, useEffect, Fragment, useState } from 'react';
 import './Header.css';
 import { Meta } from '../../models/Meta';
 import { formatPrice, getMetas } from '../../Helpers/utiles';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { getAuthState, getCart } from '../../redux/selectors/GlobalSelectors';
 import { useDispatch } from 'react-redux';
@@ -31,7 +31,8 @@ interface HeaderProps {
 
 const Header: FC<HeaderProps> = ({ metas }) => {
 
-
+const location = useLocation()
+const excludePath = ["/checkout"]
   const [pages, setPages] = useState<Page[]>([])
   const isAuth = useSelector(getAuthState)
   const cart = useSelector(getCart)
@@ -42,8 +43,8 @@ const Header: FC<HeaderProps> = ({ metas }) => {
 
 
   useEffect(() => {
-
-    const runLocalData = async () => {
+    if (!excludePath.includes(location.pathname)) {
+       const runLocalData = async () => {
       let query = "isTop=true"
       const page: RequestResponse = await searchDatas("page", query)
       if (page.isSuccess) {
@@ -65,6 +66,9 @@ const Header: FC<HeaderProps> = ({ metas }) => {
 
     }
     runLocalData()
+    }
+
+   
   }, [cart])
 
   const handleLogout = (event: any) => {
@@ -89,7 +93,9 @@ const Header: FC<HeaderProps> = ({ metas }) => {
 
   return (
     <Fragment>
-      <header className="header_wrap fixed-top header_with_topbar active">
+      {
+        !excludePath.includes(location.pathname)?
+        <header className="header_wrap fixed-top header_with_topbar active">
         <div className="top-header">
           <div className="container">
             <div className="row align-items-center">
@@ -155,9 +161,10 @@ const Header: FC<HeaderProps> = ({ metas }) => {
         </div>
         <div className="bottom_header dark_skin main_menu_uppercase">
           <div className="container">
-            <nav className="navbar navbar-expand-lg"><a className="navbar-brand" href="/">
+            <nav className="navbar navbar-expand-lg">
+            <Link className="navbar-brand" to="/">
               <h2>{getMetas(metas, "site_name")}</h2>
-            </a><button type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-expanded="false" className="navbar-toggler collapsed"><span className="ion-android-menu" /></button>
+            </Link><button type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-expanded="false" className="navbar-toggler collapsed"><span className="ion-android-menu" /></button>
               <div id="navbarSupportedContent" className="navbar-collapse justify-content-end collapse">
                 <ul className="navbar-nav">
                   <li className="dropdown"><a className="nav-link" href="/">Home</a></li>
@@ -303,6 +310,10 @@ const Header: FC<HeaderProps> = ({ metas }) => {
           </div>
         </div>
       </header>
+      :
+      null
+      }
+      
     </Fragment>
   );
 }

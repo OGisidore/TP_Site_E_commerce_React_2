@@ -46,6 +46,38 @@ export  const validateRegisterForm = (values : any) => {
   
     return errors;
   };
+export  const validateAddressForm = (values : any) => {
+    const errors : any = {};
+    if (!values.name) {
+      errors.name = 'Required';
+    } else if (values.name.length > 15) {
+      errors.name = 'Must be 15 characters or less';
+    }
+  
+    if (!values.phone) {
+      errors.phone = 'Required';
+    } 
+    if (!values.city) {
+      errors.city = 'Required';
+    } 
+    if (!values.address_type) {
+      errors.address_type = 'Required';
+    } 
+    if (!values.code_postal) {
+      errors.code_postal = 'Required';
+    } 
+
+    if (!values.street) {
+      errors.street = 'Required';
+    }
+    if (!values.state) {
+      errors.state = 'Required';
+    }
+  
+   
+  
+    return errors;
+  };
 
   
 export  const validateLoginForm = (values : any) => {
@@ -65,6 +97,25 @@ export  const validateLoginForm = (values : any) => {
   }
   return errors;
 };
+
+export  const validateSubscribe = (values : any) => {
+  const errors : any = {};
+  if (!values.fullName) {
+    errors.fullName = 'Required';
+  } else if (values.fullName.length > 15) {
+    errors.fullName = 'Must be 15 characters or less';
+  }
+  if (!values.email) {
+    errors.email = 'Required';
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    errors.email = 'Invalid email address';
+  }
+  return errors;
+};
+
+
+
+
 export const loadScript = ()=>{
   console.log("YES");
   

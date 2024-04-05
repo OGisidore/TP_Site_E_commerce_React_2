@@ -4,13 +4,14 @@
   App Name : E-commerce with React.Js
   Created At : 24/03/2024 13:29:57
 */
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import './ProductsItem.css';
 import { Product } from '../../models/Products';
 import { Link } from 'react-router-dom';
 import { formatPrice, generateID, reductionRate } from '../../Helpers/utiles';
 import { useDispatch } from 'react-redux';
 import { ADD_NOTIFICATION, ADD_TO_CART, ADD_TO_STORAGE } from '../../redux/actions/actionTypes';
+import ModalQuickView from '../ModalQuickView/ModalQuickView';
 
 
 interface ProductsItemProps {
@@ -21,6 +22,7 @@ interface ProductsItemProps {
 
 const ProductsItem: FC<ProductsItemProps> = ({ product }) => {
   const dispatch = useDispatch()
+  const [isQuickView, setIsQuickView] = useState(false)
 
 
   useEffect(() => {
@@ -29,7 +31,7 @@ const ProductsItem: FC<ProductsItemProps> = ({ product }) => {
 
     }
     runLocalData()
-  },[])
+  }, [])
   const addToCart = (e: any) => {
     e.preventDefault()
     dispatch({
@@ -50,12 +52,12 @@ const ProductsItem: FC<ProductsItemProps> = ({ product }) => {
     })
 
   }
-  const addToWishlist = (event: any , productItem:Product) => {
+  const addToWishlist = (event: any, productItem: Product) => {
     event.preventDefault()
     dispatch({
-      type : ADD_TO_STORAGE,
-      key : "wishlists",
-      payload : productItem
+      type: ADD_TO_STORAGE,
+      key: "wishlists",
+      payload: productItem
     })
     dispatch({
       type: ADD_NOTIFICATION,
@@ -63,16 +65,16 @@ const ProductsItem: FC<ProductsItemProps> = ({ product }) => {
         _id: generateID(),
         message: product.name + " added to wishllist !",
         status: "success",
-        timeout : 2000
+        timeout: 2000
       }
     })
   }
-  const addToCompare = (event: any , productItem:Product) => {
+  const addToCompare = (event: any, productItem: Product) => {
     event.preventDefault()
     dispatch({
-      type : ADD_TO_STORAGE,
-      key : "compareLists",
-      payload : productItem
+      type: ADD_TO_STORAGE,
+      key: "compareLists",
+      payload: productItem
     })
     dispatch({
       type: ADD_NOTIFICATION,
@@ -80,12 +82,19 @@ const ProductsItem: FC<ProductsItemProps> = ({ product }) => {
         _id: generateID(),
         message: product.name + " added to Compare !",
         status: "success",
-        timeout : 2000
+        timeout: 2000
       }
     })
   }
   return (
     <div className="product">
+      {
+        isQuickView ? 
+        <ModalQuickView product={product}
+        close={()=>setIsQuickView(false)}/>
+        :
+        null
+      }
       <div className="product_img">
         <Link to={"/product/" + product.slug}>
           <img alt="product_img1" src={product.imageUrls[0]} />
@@ -101,7 +110,7 @@ const ProductsItem: FC<ProductsItemProps> = ({ product }) => {
             </li>
             <li>
               <a
-              onClick={(event)=>addToCompare(event,product)}
+                onClick={(event) => addToCompare(event, product)}
                 href="#"
                 className="popup-ajax">
                 <i className="icon-shuffle" />
@@ -109,14 +118,14 @@ const ProductsItem: FC<ProductsItemProps> = ({ product }) => {
             </li>
             <li>
               <a
-                href="shop-quick-view.html"
+              onClick={()=> setIsQuickView(! isQuickView )}
                 className="popup-ajax">
                 <i
                   className="icon-magnifier-add" />
               </a>
             </li>
             <li>
-              <a href="#" onClick={(event)=>addToWishlist(event, product)}>
+              <a href="#" onClick={(event) => addToWishlist(event, product)}>
                 <i className="icon-heart" />
               </a>
             </li>

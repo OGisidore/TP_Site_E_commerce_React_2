@@ -1,7 +1,7 @@
 import { apiBase } from "../environments/environment";
 import { User } from "../models/User";
 import { setItem } from "../services/localstorage.services";
-import { get, post } from "./Helpers"
+import { get, post, put, remove } from "./Helpers"
 
 
 
@@ -37,6 +37,28 @@ export const searchDatas = async (entityName : string, query:string, page = 1, l
 export const signup = async (user:User)=>{
     const url = apiBase  +"user/signup"
     const datas = await post(url,user)
+   return datas
+    
+
+}
+
+export const addData = async (entityName : string , data:any)=>{
+    const url = apiBase  + entityName
+    const datas = await post(url,data)
+   return datas
+    
+
+}
+export const updateData = async (entityName : string , id : string,  data:any)=>{
+    const url = apiBase  + entityName + "/" + id
+    const datas = await put(url,data)
+   return datas
+    
+
+}
+export const deleteData = async (entityName : string , id : string, )=>{
+    const url = apiBase  + entityName + "/" + id
+    const datas = await remove(url)
    return datas
     
 
