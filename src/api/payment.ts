@@ -8,3 +8,9 @@ export const createPaymentIntent = async (paymentMethod : string, data : any) =>
    return datas
 
 }
+export const captureOrder = async (paymentMethod : string, data : any) =>{
+    const url = apiBase  + "payment/capture-" + paymentMethod + "-order"
+    const datas = await post(url,data)
+   return datas
+
+}

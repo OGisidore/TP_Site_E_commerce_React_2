@@ -13,6 +13,7 @@ import { useSelector } from 'react-redux';
 import { getCarriers, getCart, getCurrentAddress, getUserID } from '../../../../redux/selectors/GlobalSelectors';
 import { createPaymentIntent } from '../../../../api/payment';
 import StripeCheckoutForm from '../StripeCheckoutForm/StripeCheckoutForm';
+import Loading from '../../../Loading/Loading';
 
 // import CheckoutForm from "./CheckoutForm";
 
@@ -84,11 +85,11 @@ const StripeComponent: FC<StripeComponentProps> = () => {
   return (
     <div className="StripeComponent">
       <div className="App">
-        {clientSecret && stripePromise && (
+        {clientSecret && stripePromise ?
           <Elements options={options} stripe={stripePromise}>
             <StripeCheckoutForm />
-          </Elements>
-        )}
+          </Elements>        :
+        <Loading/>}
       </div>
     </div>
   );

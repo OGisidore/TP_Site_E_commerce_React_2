@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@babel/runtime": "^7.21.5",
+    "@paypal/react-paypal-js": "^8.2.0",
     "@stripe/react-stripe-js": "^2.6.2",
     "@stripe/stripe-js": "^3.2.0",
     "@testing-library/jest-dom": "^5.16.5",

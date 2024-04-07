@@ -60,12 +60,12 @@ const Checkout: FC<CheckoutProps> = () => {
 
       }
       let query = "user=" + userId
-       data = await searchDatas("address", query)
+      data = await searchDatas("address", query)
       if (data.isSuccess) {
         console.log(data.results);
 
         setAddressList((data.results as Address[]))
-       
+
 
       }
 
@@ -91,11 +91,11 @@ const Checkout: FC<CheckoutProps> = () => {
     }
 
   }
-  const handlePay = (e : any)=>{
+  const handlePay = (e: any) => {
     e.preventDefault()
     const currentAdress = {
-      billingAddress : addressList.filter((addres:Address)=> addres._id === billingAddress)[0],
-      shippingAddress : addressList.filter((addres:Address)=> addres._id === shippingAddress)[0],
+      billingAddress: addressList.filter((addres: Address) => addres._id === billingAddress)[0],
+      shippingAddress: addressList.filter((addres: Address) => addres._id === shippingAddress)[0],
     }
     dispatch({
       type: ADD_TO_STORAGE,
@@ -113,11 +113,11 @@ const Checkout: FC<CheckoutProps> = () => {
       <PageBanner name='Checkout' />
 
       {
-        openPaymentModal?
-        <PaymentModal 
-        hideModal={()=>setOpenPaymentModal(false)}/>
-        :
-        null
+        openPaymentModal ?
+          <PaymentModal
+            hideModal={() => setOpenPaymentModal(false)} />
+          :
+          null
       }
       <div className="main_content">
         <div className="section">
@@ -126,17 +126,17 @@ const Checkout: FC<CheckoutProps> = () => {
               <div className="col-md-6">
                 <div className="border p-3 p-md-4">
                   <ManageAddress
-                  updateAddress={setAddressList}
-                  checkout={true}
+                    updateAddress={setAddressList}
+                    checkout={true}
                   />
                   <div className="heading_s1">
                     <h4>Billing Details</h4>
                     <select name="Billing_details"
-                     onChange={(e)=>setBillingAddress(e.target.value)}
-                     className='form-control'>
+                      onChange={(e) => setBillingAddress(e.target.value)}
+                      className='form-control'>
                       <option value=""> Select your Billing Address ...</option>
                       {
-                        addressList.map((address : Address)=>{
+                        addressList.map((address: Address) => {
                           return <option value={address._id}>
                             {address.name} &nbsp;
                             {address.city}  &nbsp;
@@ -149,17 +149,17 @@ const Checkout: FC<CheckoutProps> = () => {
                       }
 
                     </select>
-                    
+
                   </div>
                   <div className="heading_s1">
                     <h4>Shipping Details</h4>
                     <select name="Shipping_details"
-                    onChange={(e)=>setShippingAddress(e.target.value)}
-                    className='form-control'
+                      onChange={(e) => setShippingAddress(e.target.value)}
+                      className='form-control'
                     >
                       <option value=""> Select your Shipping Address ...</option>
                       {
-                        addressList.map((address : Address)=>{
+                        addressList.map((address: Address) => {
                           return <option value={address._id}>
                             {address.name} &nbsp;
                             {address.city}  &nbsp;
@@ -174,10 +174,10 @@ const Checkout: FC<CheckoutProps> = () => {
                     </select>
                   </div>
                   <div className="select-carrier">
-                  <div className="heading_s1">
-                    <h4>Carriers </h4>
-                  </div>
-                 
+                    <div className="heading_s1">
+                      <h4>Carriers </h4>
+                    </div>
+
                     <select name="carrier"
                       onChange={handleChangeCarrier}
                       value={carrier ? carrier._id : null}
@@ -212,10 +212,10 @@ const Checkout: FC<CheckoutProps> = () => {
                             return <tr>
                               <td>
                                 <img
-                                 src={item.product.imageUrls[0]}
-                                 height={30}
-                                 width={30}
-                                 
+                                  src={item.product.imageUrls[0]}
+                                  height={30}
+                                  width={30}
+
                                   alt=" product" />
                                 {item.product.name}
                                 <span className="product-qty">
@@ -254,11 +254,17 @@ const Checkout: FC<CheckoutProps> = () => {
                     </div>
                   </div>
                   {
-                    shippingAddress && billingAddress && !openPaymentModal?
-                  <button onClick={handlePay} className="btn btn-fill-out btn-block"> Pay now {formatPrice(cart.sub_total + (carrier?.price || 0))} </button>
+                    shippingAddress && billingAddress && !openPaymentModal ?
+                      <div className="payment-button">
+                        <button
+                          onClick={handlePay} className="btn btn-fill-out btn-block">
+                          Pay now {formatPrice(cart.sub_total + (carrier?.price || 0))}
+                        </button>
 
-                    :
-                    <p>Please select your billing and your shipping address</p>
+                      </div>
+
+                      :
+                      <p>Please select your billing and your shipping address</p>
                   }
                 </div>
               </div>

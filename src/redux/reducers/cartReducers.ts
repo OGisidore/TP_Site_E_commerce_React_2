@@ -1,7 +1,7 @@
 import { sonnorEffect } from "../../Helpers/utiles";
 import { Article } from "../../models/Article";
-import { getItem, setItem } from "../../services/localstorage.services";
-import { ADD_TO_CART, REMOVE_FROM_CART } from "../actions/actionTypes";
+import { getItem, removeItem, setItem } from "../../services/localstorage.services";
+import { ADD_TO_CART, CLEAR_CART, REMOVE_FROM_CART } from "../actions/actionTypes";
 import { CartAction, CartGlobalState } from "../actions/types";
 
 const cart = getItem('cart')
@@ -74,6 +74,16 @@ export const cartReducers = (state: CartGlobalState = initCart, action: CartActi
 
             break;
 
+        case CLEAR_CART:
+            removeItem("cart")
+            const newCart ={
+                 items: [],
+                quantity: 0,
+                sub_total: 0
+            }
+
+            return {...newCart}
+            break;
         default:
             return {...state}
             break;

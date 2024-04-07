@@ -11,6 +11,10 @@ import {
   useStripe,
   useElements
 } from "@stripe/react-stripe-js";
+import { useSelector } from 'react-redux';
+import { getCartSubTotal } from '../../../../redux/selectors/GlobalSelectors';
+import { formatPrice } from '../../../../Helpers/utiles';
+import Loading from '../../../Loading/Loading';
 
 
 interface StripeCheckoutFormProps {
@@ -21,6 +25,7 @@ interface StripeCheckoutFormProps {
 const StripeCheckoutForm: FC<StripeCheckoutFormProps> = () => {
   const stripe = useStripe();
   const elements = useElements();
+  const cartSubTotal = useSelector(getCartSubTotal)
 
   const [message, setMessage] = useState<string | undefined>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -56,7 +61,7 @@ const StripeCheckoutForm: FC<StripeCheckoutFormProps> = () => {
     });
   }, [stripe]);
 
-  const handleSubmit = async (e : any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
 
     if (!stripe || !elements) {
@@ -71,7 +76,7 @@ const StripeCheckoutForm: FC<StripeCheckoutFormProps> = () => {
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: window.location.origin + '/payment-success',
+        return_url: window.location.origin + '/stripe-payment-success',
       },
     });
 
@@ -89,17 +94,22 @@ const StripeCheckoutForm: FC<StripeCheckoutFormProps> = () => {
     setIsLoading(false);
   };
 
-  const paymentElementOptions : any = {
+  const paymentElementOptions: any = {
     layout: "tabs"
   }
 
   return (
     <form id="payment-form" onSubmit={handleSubmit}>
-
+      {
+        !stripe || !elements ?
+          <Loading />
+          :
+          null
+      }
       <PaymentElement id="payment-element" options={paymentElementOptions} />
       <button disabled={isLoading || !stripe || !elements} id="submit">
         <span id="button-text">
-          {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
+          {isLoading ? <div className="spinner" id="spinner"></div> : ` Pay now (${formatPrice(cartSubTotal)})`}
         </span>
       </button>
       {/* Show any error or success messages */}

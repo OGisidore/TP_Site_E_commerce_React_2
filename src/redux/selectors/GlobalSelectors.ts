@@ -15,3 +15,7 @@ export const getCompareList = (state : GlobalState)=> state.storage?.compareList
 export const getSuscribed = (state : GlobalState)=> state.storage?.isSuscribed
 export const getCarriers = (state : GlobalState)=> state.storage?.carrier
 export const getCurrentAddress = (state : GlobalState)=> state.storage?.currentAddress
+export const getCartSubTotal = (state : GlobalState)=> {
+    const cartSubTotal = state.cart.sub_total + (state?.storage?.carrier?.price || 0)
+    return cartSubTotal.toFixed(2)
+}

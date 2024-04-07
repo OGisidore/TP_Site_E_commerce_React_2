@@ -9,26 +9,26 @@ import './Loading.css';
 
 
 interface LoadingProps {
- 
+
 }
 
 
-const Loading : FC<LoadingProps> = () =>{
+const Loading: FC<LoadingProps> = () => {
 
 
 
-    useEffect(() => {
-      window.scrollTo(0,0)
-      const runLocalData = async () => {
+  useEffect(() => {
+    window.scrollTo(0, 0)
+    const runLocalData = async () => {
 
-      }
-      runLocalData()
-    })
+    }
+    runLocalData()
+  })
 
   return (
-      <div className="Loading">
-          Loading Component
-      </div>
+    <div className="Loading d-flex justify-content-center align-items-center">
+      <div className="lds-ring"><div /><div /><div /><div /></div>
+    </div>
   );
 }
 

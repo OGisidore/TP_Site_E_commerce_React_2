@@ -19,6 +19,7 @@ import PageComponent from './pages/PageComponent/PageComponent'
 import ErrorPage from './pages/ErrorPage/ErrorPage'
 import WishList from './pages/WishList/WishList'
 import Compare from './pages/Compare/Compare'
+import OrderCompletes from './pages/OrderCompletes/OrderCompletes'
 
 const App: React.FC = () => {
   const [meta, setMeta] = useState<Meta[]>([])
@@ -51,6 +52,7 @@ const App: React.FC = () => {
         <Route path="/cart" element={<Cart />} />
         <Route path="/wishlist" element={<WishList />} />
         <Route path="/compare" element={<Compare />} />
+        <Route path="/stripe-payment-success" element={<OrderCompletes />} />
         <Route path="/error" element={<ErrorPage />} />
         <Route path="/page/:slug" element={<PageComponent />} />
         <Route path="/checkout" element={<PrivateRoute><Checkout /></PrivateRoute>} />
