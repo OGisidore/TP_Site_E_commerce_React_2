@@ -53,7 +53,7 @@ const App: React.FC = () => {
         <Route path="/compare" element={<Compare />} />
         <Route path="/error" element={<ErrorPage />} />
         <Route path="/page/:slug" element={<PageComponent />} />
-        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/checkout" element={<PrivateRoute><Checkout /></PrivateRoute>} />
         <Route path="/product/:slug" element={<SingleProduct />} />
         <Route path="/account" element={<PrivateRoute><Account /></PrivateRoute>} />
         <Route path="/**" element={<ErrorPage />} />

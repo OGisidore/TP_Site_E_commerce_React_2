@@ -18,11 +18,13 @@ import { getUserID } from '../../redux/selectors/GlobalSelectors';
 
 
 interface ManageAddressProps {
+  checkout? : boolean
+  updateAddress? : (data : Address[])=> void
 
 }
 
 
-const ManageAddress: FC<ManageAddressProps> = () => {
+const ManageAddress: FC<ManageAddressProps> = ({checkout , updateAddress}) => {
 
   const [openForm, setOpenForm] = useState<boolean>(false)
   const [isloading, setIsLoading] = useState<boolean>(true)
@@ -41,6 +43,10 @@ const ManageAddress: FC<ManageAddressProps> = () => {
         console.log(data.results);
 
         setAddressList((data.results as Address[]))
+        if (updateAddress) {
+          updateAddress((data.results as Address[]))
+        }
+        
         setIsLoading(true)
 
       }
@@ -102,9 +108,9 @@ const ManageAddress: FC<ManageAddressProps> = () => {
           <>
             <a
               onClick={() => setOpenForm(true)} href="#" className="btn btn-fill-out">Add new Address</a>
-
-
-            <div className="card">
+              {
+                addressList.length && !checkout?
+                <div className="card">
               <div className="card-header">
                 <h3>Your Addresses</h3>
               </div>
@@ -138,6 +144,12 @@ const ManageAddress: FC<ManageAddressProps> = () => {
                 </div>
               </div>
             </div>
+                :
+                null
+              }
+
+
+            
 
           </>
 

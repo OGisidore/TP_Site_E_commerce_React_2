@@ -5,21 +5,18 @@
   Created At : 24/03/2024 10:50:45
 */
 import { useSelector } from 'react-redux';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import { getAuthState } from '../../redux/selectors/GlobalSelectors';
+import { setItem } from '../../services/localstorage.services';
 
 const PrivateRoute = ({ children }: any) => {
 
   const isAuth = useSelector(getAuthState)
-  // let auth: any = localStorage.getItem("auth")
-
-  // if (auth) {
-  //   const { token, userId } = JSON.parse(auth)
-  //   isAuth = !!token && !!userId
-  // }
-
-  return isAuth ? children : <Navigate replace to="/signin" />
-  
+  const location =useLocation()
+  if (!isAuth) {
+    setItem("pathname",location.pathname)
+  }
+   return isAuth ? children : <Navigate replace to="/signin" />
 }
 
 export default PrivateRoute;

@@ -14,3 +14,4 @@ export const getWishlist = (state : GlobalState)=> state.storage?.wishlists
 export const getCompareList = (state : GlobalState)=> state.storage?.compareLists
 export const getSuscribed = (state : GlobalState)=> state.storage?.isSuscribed
 export const getCarriers = (state : GlobalState)=> state.storage?.carrier
+export const getCurrentAddress = (state : GlobalState)=> state.storage?.currentAddress

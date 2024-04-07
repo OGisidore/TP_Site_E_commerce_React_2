@@ -10,12 +10,15 @@ import PageBanner from '../../components/PageBanner/PageBanner';
 import { useDispatch } from 'react-redux';
 import { Carrier } from '../../models/Carriers';
 import { useSelector } from 'react-redux';
-import { getCarriers, getCart } from '../../redux/selectors/GlobalSelectors';
+import { getCarriers, getCart, getUserID } from '../../redux/selectors/GlobalSelectors';
 import { ADD_TO_STORAGE } from '../../redux/actions/actionTypes';
 import { RequestResponse } from '../../models/requestResponse';
-import { getData } from '../../api/entities';
+import { getData, searchDatas } from '../../api/entities';
 import { formatPrice } from '../../Helpers/utiles';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
+import ManageAddress from '../../components/ManageAddress/ManageAddress';
+import { Address } from '../../models/Address';
+import PaymentModal from '../../components/PaymentModal/PaymentModal';
 
 
 interface CheckoutProps {
@@ -28,15 +31,20 @@ const Checkout: FC<CheckoutProps> = () => {
   const dispatch = useDispatch()
   const [carriers, setCarriers] = useState<Carrier[]>([])
   const [loading, setLoading] = useState<boolean>(true)
+  const [openPaymentModal, setOpenPaymentModal] = useState<boolean>(false)
   const cart = useSelector(getCart)
   let carrier = useSelector(getCarriers)
+  const userId = useSelector(getUserID)
+  const [addressList, setAddressList] = useState<Address[]>([])
+  const [billingAddress, setBillingAddress] = useState<string>('')
+  const [shippingAddress, setShippingAddress] = useState<string>('')
 
 
 
   useEffect(() => {
-    window.scrollTo(0, 0)
+    // window.scrollTo(0, 0)
     const runLocalData = async () => {
-      const data: RequestResponse = await getData("carrier")
+      let data: RequestResponse = await getData("carrier")
       if (data.isSuccess) {
         setCarriers(data.results as Carrier[])
         setLoading(false)
@@ -51,6 +59,16 @@ const Checkout: FC<CheckoutProps> = () => {
         }
 
       }
+      let query = "user=" + userId
+       data = await searchDatas("address", query)
+      if (data.isSuccess) {
+        console.log(data.results);
+
+        setAddressList((data.results as Address[]))
+       
+
+      }
+
 
     }
     runLocalData()
@@ -73,23 +91,93 @@ const Checkout: FC<CheckoutProps> = () => {
     }
 
   }
+  const handlePay = (e : any)=>{
+    e.preventDefault()
+    const currentAdress = {
+      billingAddress : addressList.filter((addres:Address)=> addres._id === billingAddress)[0],
+      shippingAddress : addressList.filter((addres:Address)=> addres._id === shippingAddress)[0],
+    }
+    dispatch({
+      type: ADD_TO_STORAGE,
+      key: "currentAddress",
+      unique: true,
+      payload: currentAdress
+    })
+
+    setOpenPaymentModal(true)
+
+  }
 
   return (
     <div className="Checkout">
       <PageBanner name='Checkout' />
+
+      {
+        openPaymentModal?
+        <PaymentModal 
+        hideModal={()=>setOpenPaymentModal(false)}/>
+        :
+        null
+      }
       <div className="main_content">
         <div className="section">
           <div className="container">
             <div className="row">
               <div className="col-md-6">
                 <div className="border p-3 p-md-4">
+                  <ManageAddress
+                  updateAddress={setAddressList}
+                  checkout={true}
+                  />
                   <div className="heading_s1">
                     <h4>Billing Details</h4>
+                    <select name="Billing_details"
+                     onChange={(e)=>setBillingAddress(e.target.value)}
+                     className='form-control'>
+                      <option value=""> Select your Billing Address ...</option>
+                      {
+                        addressList.map((address : Address)=>{
+                          return <option value={address._id}>
+                            {address.name} &nbsp;
+                            {address.city}  &nbsp;
+                            {address.street} &nbsp;
+                            {address.code_postal} &nbsp;
+                            {address.phone} &nbsp;
+                            {address.state}
+                          </option>
+                        })
+                      }
+
+                    </select>
+                    
                   </div>
                   <div className="heading_s1">
                     <h4>Shipping Details</h4>
+                    <select name="Shipping_details"
+                    onChange={(e)=>setShippingAddress(e.target.value)}
+                    className='form-control'
+                    >
+                      <option value=""> Select your Shipping Address ...</option>
+                      {
+                        addressList.map((address : Address)=>{
+                          return <option value={address._id}>
+                            {address.name} &nbsp;
+                            {address.city}  &nbsp;
+                            {address.street} &nbsp;
+                            {address.code_postal} &nbsp;
+                            {address.phone} &nbsp;
+                            {address.state}
+                          </option>
+                        })
+                      }
+
+                    </select>
                   </div>
                   <div className="select-carrier">
+                  <div className="heading_s1">
+                    <h4>Carriers </h4>
+                  </div>
+                 
                     <select name="carrier"
                       onChange={handleChangeCarrier}
                       value={carrier ? carrier._id : null}
@@ -165,7 +253,13 @@ const Checkout: FC<CheckoutProps> = () => {
                     <div className="heading_s1">
                     </div>
                   </div>
-                  <Link to="/" className="btn btn-fill-out btn-block"> Pay now {formatPrice(cart.sub_total + (carrier?.price || 0))} </Link>
+                  {
+                    shippingAddress && billingAddress && !openPaymentModal?
+                  <button onClick={handlePay} className="btn btn-fill-out btn-block"> Pay now {formatPrice(cart.sub_total + (carrier?.price || 0))} </button>
+
+                    :
+                    <p>Please select your billing and your shipping address</p>
+                  }
                 </div>
               </div>
             </div>
