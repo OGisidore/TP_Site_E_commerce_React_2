@@ -25,7 +25,7 @@ Bienvenue dans le projet d'application web e-commerce ! Cette plateforme vous pe
 
 ## Installation et Configuration
 
-1. **Clonez le Répertoire:** `git clone https://github.com/votre-utilisateur/e-commerce-web-app.git`
+1. **Clonez le Répertoire:** `git clone https://github.com/OGisidore/TP_Site_E_commerce_React_2.git`
 2. **Installez les Dépendances:** `npm install`
 3. **Lancez l'Application:** `npm start`
 
