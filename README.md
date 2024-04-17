@@ -45,7 +45,7 @@ Ce projet a été développé avec l'objectif de fournir une expérience de maga
 
 ## Besoin d'Aide?
 
-Si vous rencontrez des problèmes ou avez des questions, n'hésitez pas à ouvrir une issue sur le dépôt GitHub du projet ou à nous contacter directement à [votre@email.com].
+Si vous rencontrez des problèmes ou avez des questions, n'hésitez pas à ouvrir une issue sur le dépôt GitHub du projet ou à nous contacter directement à [isidoreogoulodo43@email.com].
 
 ---
 
